@@ -1,0 +1,64 @@
+sudo apt-get update
+sudo apt-get install nginx
+
+cd /etc/nginx/sites-available/
+sudo touch myapp.conf
+sudo nano myapp.conf
+
+# write 
+server {
+    listen        80;
+    server_name   _;
+
+    location / {
+        proxy_pass         http://localhost:5000;
+        proxy_http_version 1.1;
+        proxy_set_header   Upgrade $http_upgrade;
+        proxy_set_header   Connection keep-alive;
+        proxy_set_header   Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/myapp.conf /etc/nginx/sites-enabled/
+
+sudo service nginx restart
+systemctl status nginx
+
+sudo apt-get install -y dotnet-sdk-7.0
+cd /var/www/
+sudo mkdir myapp
+cd myapp
+sudo dotnet new mvc -f net7.0
+sudo dotnet publish -c Release
+cd bin/Release/net7.0/publish
+dotnet myapp.dll
+
+cd /etc/systemd/system
+sudo touch myapp.service
+sudo nano myapp.service
+
+# write
+[Unit]
+Description=Example .NET Web App running on Linux
+
+[Service]
+WorkingDirectory=/var/www/myapp/bin/Release/net8.0/publish
+ExecStart=/usr/bin/dotnet /var/www/myapp/bin/Release/net8.0/publish/myapp.dll
+Restart=always
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=dotnet-example
+User=www-data
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_NOLOGO=true
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl enable myapp.service
+sudo systemctl start myapp.service
+sudo systemctl status myapp.service
+sudo journalctl -fu myapp.service

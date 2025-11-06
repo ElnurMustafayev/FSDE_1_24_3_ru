@@ -1,0 +1,9 @@
+sudo apt install -y postgresql-client
+
+psql --host=localhost --username=myuser --dbname=mydb
+
+\dn          # get all schemas
+\dt          # get all relations
+\d mytable   # get structure of mytable
+\l           # get all databases
+\c mydb      # connect to mydb
