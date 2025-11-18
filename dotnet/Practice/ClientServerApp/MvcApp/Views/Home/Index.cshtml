@@ -1,0 +1,17 @@
+﻿@inject IHttpClientFactory httpClientFactory
+
+@{
+    ViewData["Title"] = "Home Page";
+
+    var httpClient = httpClientFactory.CreateClient("WebApi");
+    System.Console.WriteLine("Index");
+
+
+    var response = await httpClient.PostAsync("/api/test", null);
+
+    var responseStr = await response.Content.ReadAsStringAsync();
+}
+
+<p>
+    @responseStr
+</p>
