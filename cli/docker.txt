@@ -1,0 +1,35 @@
+скачать образ из docker.hub:
+docker pull {image_name}
+
+показать список образов:
+docker images
+
+удалить образ:
+docker rmi {image_id}
+
+удалить остановленный контейнер:
+docker rm {container_id}
+
+создать контейнер:
+docker run {image_id}
+
+создать контейнер в фоновом режиме:
+docker run -d {image_id}
+
+остановить рабочий контейнер:
+docker stop {container_id}
+
+показать список рабочих контейнеров:
+docker ps
+
+показать список всех контейнеров:
+docker ps -a
+
+показать логи контейнера:
+docker logs {container_id}
+
+создать образ на основе Dockerfile:
+docker build .
+
+зайти внутрь рабочего контейнера используя bash оболочку:
+docker exec -it {container_id} bash
