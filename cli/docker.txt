@@ -16,6 +16,9 @@ docker run {image_id}
 создать контейнер в фоновом режиме:
 docker run -d {image_id}
 
+создать контейнер который автоматически удалится в случае остановки:
+docker run --rm {image_id}
+
 остановить рабочий контейнер:
 docker stop {container_id}
 
@@ -30,6 +33,12 @@ docker logs {container_id}
 
 создать образ на основе Dockerfile:
 docker build .
+
+создать образ на основе специфичного Dockerfile:
+docker build -f {docker_file_path} .
+
+создать образ с названием и тегом:
+docker build -t {image_name}:{image_tag} .
 
 зайти внутрь рабочего контейнера используя bash оболочку:
 docker exec -it {container_id} bash
