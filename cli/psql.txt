@@ -1,6 +1,6 @@
 sudo apt install -y postgresql-client
 
-psql --host=localhost --username=myuser --dbname=mydb
+psql --host=localhost --port=5432 --username=bob --db=mydb
 
 \dn          # get all schemas
 \dt          # get all relations
