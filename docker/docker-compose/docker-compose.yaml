@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=bob
+      - POSTGRES_PASSWORD=Secret12345!
+      - POSTGRES_DB=mydb
+    ports:
+      - 5432:5432
+    networks:
+      - compose_network
+    volumes:
+      - compose_volume:/var/lib/postgresql/18
+    restart: always
+
+  webapi:
+    depends_on:
+      - postgres
+    build: 
+      context: WebApiApp
+      dockerfile: Dockerfile
+    image: webapi:latest
+    container_name: webapi_app
+    environment:
+      - Test=Hello
+    ports:
+      - 8080:8080
+    networks:
+      - compose_network
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_app
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=user@domain.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
+    ports:
+      - 9000:80
+    networks:
+      - compose_network
+    restart: always
+
+networks:
+  compose_network:
+    driver: bridge
+
+volumes:
+  compose_volume:
