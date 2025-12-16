@@ -1,0 +1,6 @@
+services:
+  redis:
+    image: redis
+    container_name: redis_db
+    ports:
+      - 6380:6379
