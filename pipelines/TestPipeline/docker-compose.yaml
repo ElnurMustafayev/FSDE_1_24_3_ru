@@ -1,0 +1,9 @@
+services:
+  webapi:
+    image: elnurmustafayev/webapi:latest
+    build: 
+      context: MyWebApiApp
+      dockerfile: Dockerfile
+    container_name: webapi_app
+    ports:
+      - 8080:8080
